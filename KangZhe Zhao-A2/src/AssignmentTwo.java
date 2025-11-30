@@ -1,28 +1,26 @@
 // src/AssignmentTwo.java
 public class AssignmentTwo {
     public static void main(String[] args) {
-        // Run Part3 demo
         AssignmentTwo app = new AssignmentTwo();
-        app.partThree();
+        app.partFourA();
+        app.partFourB();
     }
 
-    // --- Part3: Demonstrate Waiting Queue Management ---
-    public void partThree() {
-        System.out.println("=== Part3: Theme Park Ride Queue Management Demo ===");
+    // --- Part4A: Ride History Management Demo ---
+    public void partFourA() {
+        System.out.println("=== Part4A: Ride History Management Demo ===");
 
-        // 1. Create ride operator
-        Employee ferrisWheelOperator = new Employee(
+        // Create operator and ride
+        Employee rollerCoasterOperator = new Employee(
                 "Zhang San",
                 25,
                 "138-1234-5678",
                 "EMP-001",
-                "Ferris Wheel"
+                "Roller Coaster"
         );
+        Ride rollerCoaster = new Ride("Roller Coaster", 6, rollerCoasterOperator);
 
-        // 2. Create Ferris Wheel ride instance
-        Ride ferrisWheel = new Ride("Ferris Wheel", 4, ferrisWheelOperator);
-
-        // 3. Create 3 test visitors
+        // Create test visitors
         Visitor visitor1 = new Visitor(
                 "Li Si",
                 18,
@@ -45,37 +43,78 @@ public class AssignmentTwo {
                 true
         );
 
-        // 4. Add visitors to the queue
-        System.out.println("\n--- Adding Visitors to Queue ---");
-        ferrisWheel.addVisitorToQueue(visitor1);
-        ferrisWheel.addVisitorToQueue(visitor2);
-        ferrisWheel.addVisitorToQueue(visitor3);
+        // Add visitors to history
+        System.out.println("\n--- Adding Visitors to History ---");
+        rollerCoaster.addToRideHistory(visitor1);
+        rollerCoaster.addToRideHistory(visitor2);
+        rollerCoaster.addToRideHistory(visitor3);
 
-        // 5. Print initial queue
-        System.out.println("\n--- Initial Queue State ---");
-        ferrisWheel.printQueue();
+        // Print initial history
+        System.out.println("\n--- Initial Ride History ---");
+        rollerCoaster.printRideHistory();
 
-        // 6. Check queue status
-        System.out.println("\n--- Queue Status Check ---");
-        System.out.println("Queue size: " + ferrisWheel.getQueueSize());
-        System.out.println("Is queue empty? " + ferrisWheel.isQueueEmpty());
+        // Find visitor by ticket ID
+        System.out.println("\n--- Find Visitor by Ticket ID (TICKET-002) ---");
+        Visitor foundVisitor = rollerCoaster.findVisitorInHistoryByTicketId("TICKET-002");
+        System.out.println("Found: " + (foundVisitor != null ? foundVisitor : "No visitor found"));
 
-        // 7. Remove one visitor from queue
-        System.out.println("\n--- Removing One Visitor ---");
-        ferrisWheel.removeVisitorFromQueue();
+        // Iterate history with Iterator
+        System.out.println("\n--- Iterate Ride History ---");
+        rollerCoaster.iterateRideHistory();
+    }
 
-        // 8. Print updated queue
-        System.out.println("\n--- Updated Queue State ---");
-        ferrisWheel.printQueue();
+    // --- Part4B: Ride History Sorting Demo ---
+    public void partFourB() {
+        System.out.println("\n\n=== Part4B: Ride History Sorting Demo ===");
 
-        // 9. Final queue status
-        System.out.println("\n--- Final Queue Status ---");
-        System.out.println("Queue size: " + ferrisWheel.getQueueSize());
+        // Create operator and ride
+        Employee ferrisWheelOperator = new Employee(
+                "Li Si",
+                26,
+                "135-9999-0000",
+                "EMP-002",
+                "Ferris Wheel"
+        );
+        Ride ferrisWheel = new Ride("Ferris Wheel", 4, ferrisWheelOperator);
+
+        // Add unsorted visitors to history
+        ferrisWheel.addToRideHistory(new Visitor(
+                "Zhao Liu",
+                22,
+                "136-7777-8888",
+                "TICKET-003",
+                true
+        ));
+        ferrisWheel.addToRideHistory(new Visitor(
+                "Li Si",
+                18,
+                "139-8765-4321",
+                "TICKET-001",
+                true
+        ));
+        ferrisWheel.addToRideHistory(new Visitor(
+                "Wang Wu",
+                20,
+                "137-5555-6666",
+                "TICKET-002",
+                false
+        ));
+
+        // Print history before sorting
+        System.out.println("\n--- Ride History (Before Sorting) ---");
+        ferrisWheel.printRideHistory();
+
+        // Sort the history
+        System.out.println("\n--- Sorting Ride History ---");
+        ferrisWheel.sortRideHistory();
+
+        // Print history after sorting
+        System.out.println("\n--- Ride History (After Sorting) ---");
+        ferrisWheel.printRideHistory();
     }
 
     // Placeholder methods for other parts
-    public void partFourA() {}
-    public void partFourB() {}
+    public void partThree() {}
     public void partFive() {}
     public void partSix() {}
     public void partSeven() {}

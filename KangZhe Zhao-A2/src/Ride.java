@@ -1,17 +1,18 @@
 // src/Ride.java
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.Collections;
 
-// Implements RideInterface to handle queue and history operations (Part2 + Part3)
 public class Ride implements RideInterface {
-    // Ride basic info
+    // Ride basic information
     private String rideName;
     private int maxCapacity;
     private Employee operator;
 
-    // Part2 + Part3: Waiting queue (stores visitors waiting for the ride)
+    // Waiting queue (Part3)
     private Queue<Visitor> waitingQueue;
-    // Part2: Ride history (stores visitors who have ridden)
+    // Ride history (Part2 + Part4)
     private LinkedList<Visitor> rideHistory;
 
     // Default constructor
@@ -32,18 +33,49 @@ public class Ride implements RideInterface {
         this.rideHistory = new LinkedList<>();
     }
 
-    // --- Part3: Enhanced Queue Management Methods ---
-    // Check if the waiting queue is empty
+    // --- Part3: Queue Management Methods ---
     public boolean isQueueEmpty() {
         return waitingQueue.isEmpty();
     }
 
-    // Get current size of the waiting queue
     public int getQueueSize() {
         return waitingQueue.size();
     }
 
-    // --- Implement RideInterface Methods (Part2 + Part3) ---
+    // --- Part4A: Ride History Management Methods ---
+    // Find visitor in history by ticket ID
+    public Visitor findVisitorInHistoryByTicketId(String ticketId) {
+        for (Visitor visitor : rideHistory) {
+            if (visitor.getTicketId().equals(ticketId)) {
+                return visitor;
+            }
+        }
+        return null;
+    }
+
+    // Clear all ride history
+    public void clearRideHistory() {
+        rideHistory.clear();
+        System.out.println(rideName + "'s ride history has been cleared");
+    }
+
+    // Iterate history using Iterator
+    public void iterateRideHistory() {
+        System.out.println("\nIterating " + rideName + "'s ride history:");
+        Iterator<Visitor> iterator = rideHistory.iterator();
+        while (iterator.hasNext()) {
+            System.out.println("- " + iterator.next());
+        }
+    }
+
+    // --- Part4B: Ride History Sorting Method ---
+    // Sort history by age (ascending) → name (ascending)
+    public void sortRideHistory() {
+        Collections.sort(rideHistory, new VisitorComparator());
+        System.out.println(rideName + "'s ride history has been sorted (age → name)");
+    }
+
+    // --- Implement RideInterface Methods ---
     @Override
     public void addVisitorToQueue(Visitor visitor) {
         waitingQueue.add(visitor);
@@ -78,13 +110,20 @@ public class Ride implements RideInterface {
     @Override
     public void addToRideHistory(Visitor visitor) {
         rideHistory.add(visitor);
+        System.out.println("Visitor " + visitor.getName() + " added to " + rideName + "'s history");
     }
 
     @Override
     public void printRideHistory() {
-        System.out.println(rideName + "'s Ride History (" + rideHistory.size() + " total visitors):");
+        System.out.println("\n" + rideName + "'s Ride History (" + rideHistory.size() + " visitors):");
+        if (rideHistory.isEmpty()) {
+            System.out.println("  [History is empty]");
+            return;
+        }
+        int index = 1;
         for (Visitor visitor : rideHistory) {
-            System.out.println("- " + visitor);
+            System.out.println("  " + index + ". " + visitor);
+            index++;
         }
     }
 
