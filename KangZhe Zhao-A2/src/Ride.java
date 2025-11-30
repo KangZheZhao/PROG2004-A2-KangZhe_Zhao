@@ -2,85 +2,98 @@
 import java.util.Queue;
 import java.util.LinkedList;
 
+// Implements RideInterface to handle queue and history operations (Part2 + Part3)
 public class Ride implements RideInterface {
-    // Name of the ride
+    // Ride basic info
     private String rideName;
-    // Maximum number of riders per cycle
     private int maxCapacity;
-    // Employee responsible for operating the ride
     private Employee operator;
 
-    // Part2 addition: Queue to store waiting visitors
+    // Part2 + Part3: Waiting queue (stores visitors waiting for the ride)
     private Queue<Visitor> waitingQueue;
-    // Part2 addition: LinkedList to store ride history (visited visitors)
+    // Part2: Ride history (stores visitors who have ridden)
     private LinkedList<Visitor> rideHistory;
 
-    // Default constructor: Initializes default values and collections
+    // Default constructor
     public Ride() {
         this.rideName = "Unknown Ride";
         this.maxCapacity = 4;
         this.operator = new Employee();
-        // Initialize waiting queue (LinkedList implements Queue)
         this.waitingQueue = new LinkedList<>();
-        // Initialize ride history (LinkedList for easy traversal/sorting later)
         this.rideHistory = new LinkedList<>();
     }
 
-    // Parameterized constructor: Initializes ride details + operator, then collections
+    // Parameterized constructor
     public Ride(String rideName, int maxCapacity, Employee operator) {
         this.rideName = rideName;
-        // Validate: Max capacity must be at least 1
         this.maxCapacity = (maxCapacity >= 1) ? maxCapacity : 1;
         this.operator = operator;
         this.waitingQueue = new LinkedList<>();
         this.rideHistory = new LinkedList<>();
     }
 
-    // --- Implement methods from RideInterface ---
-    // Add a visitor to the waiting queue
+    // --- Part3: Enhanced Queue Management Methods ---
+    // Check if the waiting queue is empty
+    public boolean isQueueEmpty() {
+        return waitingQueue.isEmpty();
+    }
+
+    // Get current size of the waiting queue
+    public int getQueueSize() {
+        return waitingQueue.size();
+    }
+
+    // --- Implement RideInterface Methods (Part2 + Part3) ---
     @Override
     public void addVisitorToQueue(Visitor visitor) {
         waitingQueue.add(visitor);
         System.out.println("Visitor " + visitor.getName() + " added to " + rideName + "'s waiting queue");
     }
 
-    // Remove the front visitor from the waiting queue (dequeue)
     @Override
     public Visitor removeVisitorFromQueue() {
-        return waitingQueue.poll(); // Returns null if queue is empty
+        Visitor removedVisitor = waitingQueue.poll();
+        if (removedVisitor != null) {
+            System.out.println("Visitor " + removedVisitor.getName() + " removed from " + rideName + "'s waiting queue");
+        } else {
+            System.out.println(rideName + "'s waiting queue is empty - cannot remove");
+        }
+        return removedVisitor;
     }
 
-    // Print all visitors in the waiting queue
     @Override
     public void printQueue() {
-        System.out.println(rideName + "'s waiting queue (" + waitingQueue.size() + " visitors):");
-        for (Visitor v : waitingQueue) {
-            System.out.println("- " + v);
+        System.out.println("\n" + rideName + "'s Waiting Queue (" + waitingQueue.size() + " visitors):");
+        if (waitingQueue.isEmpty()) {
+            System.out.println("  [Queue is empty]");
+            return;
+        }
+        int index = 1;
+        for (Visitor visitor : waitingQueue) {
+            System.out.println("  " + index + ". " + visitor);
+            index++;
         }
     }
 
-    // Add a visitor to the ride history
     @Override
     public void addToRideHistory(Visitor visitor) {
         rideHistory.add(visitor);
     }
 
-    // Print all visitors in the ride history
     @Override
     public void printRideHistory() {
-        System.out.println(rideName + "'s ride history (" + rideHistory.size() + " total visitors):");
-        for (Visitor v : rideHistory) {
-            System.out.println("- " + v);
+        System.out.println(rideName + "'s Ride History (" + rideHistory.size() + " total visitors):");
+        for (Visitor visitor : rideHistory) {
+            System.out.println("- " + visitor);
         }
     }
 
-    // Get the total number of visitors in the ride history
     @Override
     public int getRideHistoryCount() {
         return rideHistory.size();
     }
 
-    // --- Getter and Setter methods ---
+    // --- Getters & Setters ---
     public String getRideName() { return rideName; }
     public void setRideName(String rideName) { this.rideName = rideName; }
     public int getMaxCapacity() { return maxCapacity; }
@@ -88,7 +101,6 @@ public class Ride implements RideInterface {
     public Employee getOperator() { return operator; }
     public void setOperator(Employee operator) { this.operator = operator; }
 
-    // Override toString: Print full ride details
     @Override
     public String toString() {
         return "Ride{" +
