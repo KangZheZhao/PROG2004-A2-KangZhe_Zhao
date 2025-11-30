@@ -3,6 +3,9 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Collections;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedWriter;
 
 public class Ride implements RideInterface {
     // Ride basic information
@@ -72,7 +75,6 @@ public class Ride implements RideInterface {
     }
 
     // --- Part5: Ride Cycle Operation Method ---
-    // Run one cycle: Take up to maxCapacity visitors from queue → add to history
     public void runOneCycle() {
         System.out.println("\n=== " + rideName + " Starting New Cycle ===");
         if (isQueueEmpty()) {
@@ -81,7 +83,6 @@ public class Ride implements RideInterface {
         }
 
         int ridersThisCycle = 0;
-        // Take visitors until max capacity or queue is empty
         while (ridersThisCycle < maxCapacity && !isQueueEmpty()) {
             Visitor currentRider = removeVisitorFromQueue();
             addToRideHistory(currentRider);
@@ -90,6 +91,35 @@ public class Ride implements RideInterface {
 
         System.out.println("Cycle completed: " + ridersThisCycle + " visitors rode the " + rideName);
         System.out.println("Updated ride history count: " + getRideHistoryCount());
+    }
+
+    // --- Part6: Export Ride History to Text File ---
+    public void exportHistoryToFile(String filePath) {
+        System.out.println("\n--- Exporting " + rideName + "'s History to File: " + filePath + " ---");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            // Write file header
+            writer.write(rideName + " Ride History (Total Visitors: " + getRideHistoryCount() + ")");
+            writer.newLine();
+            writer.write("----------------------------------------");
+            writer.newLine();
+
+            // Write each visitor's info
+            for (Visitor visitor : rideHistory) {
+                writer.write(String.format(
+                        "Name: %s | Age: %d | Ticket ID: %s | Member: %s | Contact: %s",
+                        visitor.getName(),
+                        visitor.getAge(),
+                        visitor.getTicketId(),
+                        visitor.isMember() ? "Yes" : "No",
+                        visitor.getContactInfo()
+                ));
+                writer.newLine();
+            }
+
+            System.out.println("Export successful! History saved to " + filePath);
+        } catch (IOException e) {
+            System.out.println("Export failed: " + e.getMessage());
+        }
     }
 
     // --- Implement RideInterface Methods ---

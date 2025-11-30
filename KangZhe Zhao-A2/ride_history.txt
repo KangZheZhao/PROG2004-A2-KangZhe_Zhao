@@ -1,0 +1,5 @@
+Ferris Wheel Ride History (Total Visitors: 3)
+----------------------------------------
+Name: Li Si | Age: 18 | Ticket ID: TICKET-001 | Member: Yes | Contact: 139-8765-4321
+Name: Wang Wu | Age: 20 | Ticket ID: TICKET-002 | Member: No | Contact: 137-5555-6666
+Name: Zhao Liu | Age: 22 | Ticket ID: TICKET-003 | Member: Yes | Contact: 136-7777-8888
