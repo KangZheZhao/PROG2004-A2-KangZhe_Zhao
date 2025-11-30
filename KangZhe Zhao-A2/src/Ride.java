@@ -43,7 +43,6 @@ public class Ride implements RideInterface {
     }
 
     // --- Part4A: Ride History Management Methods ---
-    // Find visitor in history by ticket ID
     public Visitor findVisitorInHistoryByTicketId(String ticketId) {
         for (Visitor visitor : rideHistory) {
             if (visitor.getTicketId().equals(ticketId)) {
@@ -53,13 +52,11 @@ public class Ride implements RideInterface {
         return null;
     }
 
-    // Clear all ride history
     public void clearRideHistory() {
         rideHistory.clear();
         System.out.println(rideName + "'s ride history has been cleared");
     }
 
-    // Iterate history using Iterator
     public void iterateRideHistory() {
         System.out.println("\nIterating " + rideName + "'s ride history:");
         Iterator<Visitor> iterator = rideHistory.iterator();
@@ -69,10 +66,30 @@ public class Ride implements RideInterface {
     }
 
     // --- Part4B: Ride History Sorting Method ---
-    // Sort history by age (ascending) → name (ascending)
     public void sortRideHistory() {
         Collections.sort(rideHistory, new VisitorComparator());
         System.out.println(rideName + "'s ride history has been sorted (age → name)");
+    }
+
+    // --- Part5: Ride Cycle Operation Method ---
+    // Run one cycle: Take up to maxCapacity visitors from queue → add to history
+    public void runOneCycle() {
+        System.out.println("\n=== " + rideName + " Starting New Cycle ===");
+        if (isQueueEmpty()) {
+            System.out.println("No visitors in queue - cycle canceled");
+            return;
+        }
+
+        int ridersThisCycle = 0;
+        // Take visitors until max capacity or queue is empty
+        while (ridersThisCycle < maxCapacity && !isQueueEmpty()) {
+            Visitor currentRider = removeVisitorFromQueue();
+            addToRideHistory(currentRider);
+            ridersThisCycle++;
+        }
+
+        System.out.println("Cycle completed: " + ridersThisCycle + " visitors rode the " + rideName);
+        System.out.println("Updated ride history count: " + getRideHistoryCount());
     }
 
     // --- Implement RideInterface Methods ---

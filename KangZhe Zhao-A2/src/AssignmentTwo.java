@@ -2,15 +2,14 @@
 public class AssignmentTwo {
     public static void main(String[] args) {
         AssignmentTwo app = new AssignmentTwo();
-        app.partFourA();
-        app.partFourB();
+        app.partFive();
     }
 
-    // --- Part4A: Ride History Management Demo ---
-    public void partFourA() {
-        System.out.println("=== Part4A: Ride History Management Demo ===");
+    // --- Part5: Ride Cycle Operation Demo ---
+    public void partFive() {
+        System.out.println("=== Part5: Ride Cycle Operation Demo ===");
 
-        // Create operator and ride
+        // 1. Create operator and ride (max capacity = 4)
         Employee rollerCoasterOperator = new Employee(
                 "Zhang San",
                 25,
@@ -18,104 +17,82 @@ public class AssignmentTwo {
                 "EMP-001",
                 "Roller Coaster"
         );
-        Ride rollerCoaster = new Ride("Roller Coaster", 6, rollerCoasterOperator);
+        Ride rollerCoaster = new Ride("Roller Coaster", 4, rollerCoasterOperator);
 
-        // Create test visitors
-        Visitor visitor1 = new Visitor(
+        // 2. Add 6 visitors to the queue (more than max capacity)
+        System.out.println("\n--- Adding 6 Visitors to Queue ---");
+        rollerCoaster.addVisitorToQueue(new Visitor(
                 "Li Si",
                 18,
                 "139-8765-4321",
                 "TICKET-001",
                 true
-        );
-        Visitor visitor2 = new Visitor(
+        ));
+        rollerCoaster.addVisitorToQueue(new Visitor(
                 "Wang Wu",
                 20,
                 "137-5555-6666",
                 "TICKET-002",
                 false
-        );
-        Visitor visitor3 = new Visitor(
+        ));
+        rollerCoaster.addVisitorToQueue(new Visitor(
                 "Zhao Liu",
                 22,
                 "136-7777-8888",
                 "TICKET-003",
                 true
-        );
+        ));
+        rollerCoaster.addVisitorToQueue(new Visitor(
+                "Qian Qi",
+                25,
+                "135-4444-3333",
+                "TICKET-004",
+                false
+        ));
+        rollerCoaster.addVisitorToQueue(new Visitor(
+                "Sun Ba",
+                19,
+                "134-2222-1111",
+                "TICKET-005",
+                true
+        ));
+        rollerCoaster.addVisitorToQueue(new Visitor(
+                "Zhou Jiu",
+                21,
+                "133-6666-5555",
+                "TICKET-006",
+                false
+        ));
 
-        // Add visitors to history
-        System.out.println("\n--- Adding Visitors to History ---");
-        rollerCoaster.addToRideHistory(visitor1);
-        rollerCoaster.addToRideHistory(visitor2);
-        rollerCoaster.addToRideHistory(visitor3);
+        // 3. Print initial queue
+        System.out.println("\n--- Initial Queue ---");
+        rollerCoaster.printQueue();
 
-        // Print initial history
-        System.out.println("\n--- Initial Ride History ---");
+        // 4. Run first cycle (max 4 visitors)
+        System.out.println("\n--- Running First Cycle ---");
+        rollerCoaster.runOneCycle();
+
+        // 5. Print queue and history after first cycle
+        System.out.println("\n--- Queue After First Cycle ---");
+        rollerCoaster.printQueue();
+        System.out.println("\n--- Ride History After First Cycle ---");
         rollerCoaster.printRideHistory();
 
-        // Find visitor by ticket ID
-        System.out.println("\n--- Find Visitor by Ticket ID (TICKET-002) ---");
-        Visitor foundVisitor = rollerCoaster.findVisitorInHistoryByTicketId("TICKET-002");
-        System.out.println("Found: " + (foundVisitor != null ? foundVisitor : "No visitor found"));
+        // 6. Run second cycle
+        System.out.println("\n--- Running Second Cycle ---");
+        rollerCoaster.runOneCycle();
 
-        // Iterate history with Iterator
-        System.out.println("\n--- Iterate Ride History ---");
-        rollerCoaster.iterateRideHistory();
-    }
-
-    // --- Part4B: Ride History Sorting Demo ---
-    public void partFourB() {
-        System.out.println("\n\n=== Part4B: Ride History Sorting Demo ===");
-
-        // Create operator and ride
-        Employee ferrisWheelOperator = new Employee(
-                "Li Si",
-                26,
-                "135-9999-0000",
-                "EMP-002",
-                "Ferris Wheel"
-        );
-        Ride ferrisWheel = new Ride("Ferris Wheel", 4, ferrisWheelOperator);
-
-        // Add unsorted visitors to history
-        ferrisWheel.addToRideHistory(new Visitor(
-                "Zhao Liu",
-                22,
-                "136-7777-8888",
-                "TICKET-003",
-                true
-        ));
-        ferrisWheel.addToRideHistory(new Visitor(
-                "Li Si",
-                18,
-                "139-8765-4321",
-                "TICKET-001",
-                true
-        ));
-        ferrisWheel.addToRideHistory(new Visitor(
-                "Wang Wu",
-                20,
-                "137-5555-6666",
-                "TICKET-002",
-                false
-        ));
-
-        // Print history before sorting
-        System.out.println("\n--- Ride History (Before Sorting) ---");
-        ferrisWheel.printRideHistory();
-
-        // Sort the history
-        System.out.println("\n--- Sorting Ride History ---");
-        ferrisWheel.sortRideHistory();
-
-        // Print history after sorting
-        System.out.println("\n--- Ride History (After Sorting) ---");
-        ferrisWheel.printRideHistory();
+        // 7. Print final state
+        System.out.println("\n--- Final Queue ---");
+        rollerCoaster.printQueue();
+        System.out.println("\n--- Final Ride History ---");
+        rollerCoaster.printRideHistory();
     }
 
     // Placeholder methods for other parts
     public void partThree() {}
-    public void partFive() {}
+    public void partFourA() {}
+    public void partFourB() {}
     public void partSix() {}
     public void partSeven() {}
 }
