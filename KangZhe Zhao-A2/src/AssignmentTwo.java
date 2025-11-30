@@ -1,26 +1,43 @@
 // src/AssignmentTwo.java
 public class AssignmentTwo {
-    // main method: program entry (meets Document 1-25 requirements)
+    // Main method: Program entry point, used to test Part2 functionality
     public static void main(String[] args) {
-        // Subsequent calls to methods in Parts 3-7 can be made here for overall demonstration
-        System.out.println("Theme Park Management System (PRVMS) initialization completed!");
+        // Create an operator
+        Employee operator = new Employee("Zhang San", 25, "138xxxx1234", "EMP-001", "Roller Coaster");
+
+        // Create a ride instance
+        Ride rollerCoaster = new Ride("Roller Coaster", 6, operator);
+
+        // Create two visitor instances
+        Visitor v1 = new Visitor("Li Si", 18, "139xxxx5678", "TICKET-001", true);
+        Visitor v2 = new Visitor("Wang Wu", 20, "137xxxx9012", "TICKET-002", false);
+
+        // Test: Add visitors to waiting queue and print the queue
+        rollerCoaster.addVisitorToQueue(v1);
+        rollerCoaster.addVisitorToQueue(v2);
+        rollerCoaster.printQueue();
+
+        // Test: Add a visitor to ride history and print the history
+        rollerCoaster.addToRideHistory(v1);
+        rollerCoaster.printRideHistory();
+        System.out.println("Total visitors in history: " + rollerCoaster.getRideHistoryCount());
     }
 
-    // Part 3 method placeholder (meets Document 1-58 requirements)
+    // Placeholder for Part3: Waiting queue management
     public void partThree() {}
 
-    // Part 4A method placeholder (meets Document 1-58 requirements)
+    // Placeholder for Part4A: Ride history management
     public void partFourA() {}
 
-    // Part 4B method placeholder (meets Document 1-58 requirements)
+    // Placeholder for Part4B: Ride history sorting
     public void partFourB() {}
 
-    // Part 6 method placeholder (meets Document 1-58 requirements)
+    // Placeholder for Part6: Export ride history to file
     public void partSix() {}
 
-    // Part 7 method placeholder (meets Document 1-58 requirements)
+    // Placeholder for Part7: Import ride history from file
     public void partSeven() {}
 
-    // Part 5 method placeholder (meets Document 1-58 requirements)
+    // Placeholder for Part5: Ride cycle operation
     public void partFive() {}
 }

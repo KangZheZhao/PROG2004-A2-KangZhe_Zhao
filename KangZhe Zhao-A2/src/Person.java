@@ -1,5 +1,5 @@
 // src/Person.java
-public class Person {
+public abstract class Person { // 修正为抽象类声明
     // 3 instance variables: name, age, contact information (meets Document 1-36 requirements)
     private String name;
     private int age;
