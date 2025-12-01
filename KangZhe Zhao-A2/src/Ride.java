@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class Ride implements RideInterface {
     // Ride basic information
@@ -119,6 +121,46 @@ public class Ride implements RideInterface {
             System.out.println("Export successful! History saved to " + filePath);
         } catch (IOException e) {
             System.out.println("Export failed: " + e.getMessage());
+        }
+    }
+
+    // --- Part7: Import Ride History from Text File ---
+    public void importHistoryFromFile(String filePath) {
+        System.out.println("\n--- Importing History to " + rideName + " from File: " + filePath + " ---");
+        // Clear existing history before importing
+        clearRideHistory();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            // Skip header lines (first 2 lines)
+            reader.readLine(); // Skip title line
+            reader.readLine(); // Skip separator line
+
+            // Read and parse each visitor line
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(" \\| ");
+                if (parts.length != 5) {
+                    System.out.println("Skipping invalid line: " + line);
+                    continue;
+                }
+
+                // Parse each field from the line
+                String name = parts[0].split(": ")[1];
+                int age = Integer.parseInt(parts[1].split(": ")[1]);
+                String ticketId = parts[2].split(": ")[1];
+                boolean isMember = parts[3].split(": ")[1].equals("Yes");
+                String contactInfo = parts[4].split(": ")[1];
+
+                // Create Visitor object and add to history
+                Visitor importedVisitor = new Visitor(name, age, contactInfo, ticketId, isMember);
+                addToRideHistory(importedVisitor);
+            }
+
+            System.out.println("Import successful! " + getRideHistoryCount() + " visitors imported");
+        } catch (IOException e) {
+            System.out.println("Import failed: File error - " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Import failed: Invalid number format - " + e.getMessage());
         }
     }
 
